@@ -1,0 +1,70 @@
+\item
+
+
+In this next part, you will see how different reward functions impact the agent's behavior in the In-Hand Manipulation task. The structure of the reward function for the Hand task is:
+
+\begin{align*}
+    r_t = -w_0 \cdot r_{t, \text{cube pos}} - w_1 \cdot r_{t, \text{cube ori}} - w_2 \cdot r_{t, \text{cube vel}} - w_3 \cdot r_{t, \text{actuator}}
+\end{align*}
+where
+\begin{itemize}
+    \item $r_{t, \text{cube pos}}$ is the $\ell^2$ norm of the difference between the cube's position and the hand palm position,
+    \item $r_{t, \text{cube ori}}$ is the $\ell^2$ norm of the difference between the cube's orientation and the goal orientation,
+    \item $r_{t, \text{cube vel}}$ is the $\ell^2$ norm of the cube's linear velocity, and
+    \item $r_{t, \text{actuator}}$ is the $\ell^2$ norm of the control inputs (i.e., the forces applied that cause the robot to move).
+\end{itemize}
+For each part below, you will watch the videos located in \texttt{mujoco\_mpc/videos}. Then, in 1-2 sentences, describe the agent's behavior and why the reward 
+function leads to this behavior.
+
+\begin{enumerate}[label=\roman*.]
+    \item \points{1bi} Watch \texttt{mujoco\_mpc/videos/part1bi.avi}, which was generated with the parameters $w_0 = 20$, $w_1 = 3$, $w_2 = 10$, and $w_3 = 0.1$:
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+./build/bin/mjpc --task="Hand" --steps=100 \
+    --horizon=2.5 --w0=20.0 --w1=3.0 --w2=10.0 --w3=0.1
+\end{verbatim}
+\end{tcolorbox}
+
+\textbf{Describe the agent's behavior and why the reward function leads to this behavior in 1-2 sentences.}
+
+🐍
+import re
+with open('submission.tex') as f: print((re.search(r'% <SCPD_SUBMISSION_TAG>_1bi(.*?)% <SCPD_SUBMISSION_TAG>_1bi', f.read(), re.DOTALL)).group(1))
+🐍
+
+    \item \points{1bii} Watch \texttt{mujoco\_mpc/videos/part1bii.avi}, which was generated with the parameters $w_0 = 20$, $w_1 = 3$, $w_2 = 10$, and $w_3 = 1$:
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+./build/bin/mjpc --task="Hand" --steps=100 \
+    --horizon=0.25 --w0=20.0 --w1=3.0 --w2=10.0 --w3=1.0
+\end{verbatim}
+\end{tcolorbox}
+
+\textbf{Describe the agent's behavior and why the reward function leads to this behavior in 1-2 sentences.}
+
+🐍
+import re
+with open('submission.tex') as f: print((re.search(r'% <SCPD_SUBMISSION_TAG>_1bii(.*?)% <SCPD_SUBMISSION_TAG>_1bii', f.read(), re.DOTALL)).group(1))
+🐍
+
+    \item \points{1biii} Watch \texttt{mujoco\_mpc/videos/part1biii.avi}, which was generated with the parameters $w_0 = 0$, $w_1 = 0$, $w_2 = 0$, and $w_3 = 1$:
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+./build/bin/mjpc --task="Hand" --steps=100 \
+    --horizon=2.5 --w0=0.0 --w1=0.0 --w2=0.0 --w3=1.0
+\end{verbatim}
+\end{tcolorbox}
+\textbf{Hint:} An episode terminates when the cube falls out of the hand.\\
+\\
+
+\textbf{Describe the agent's behavior and why the reward function leads to this behavior in 1-2 sentences.}
+
+🐍
+import re
+with open('submission.tex') as f: print((re.search(r'% <SCPD_SUBMISSION_TAG>_1biii(.*?)% <SCPD_SUBMISSION_TAG>_1biii', f.read(), re.DOTALL)).group(1))
+🐍
+    
+\end{enumerate}
+
+
+
