@@ -1,0 +1,38 @@
+\item \points{1a}
+
+Design a reward function for the Quadruped task such that the agent walks in a clockwise circle (watch \texttt{mujoco\_mpc/videos/part1.avi} for an example of the desired behavior). The structure of the reward function for the Quadruped task is:
+\begin{align*}
+    r_t = -w_0 \cdot r_{t, \text{height}} - w_1 \cdot r_{t, \text{pos}}(w_2, w_3) + c
+\end{align*}
+where
+\begin{itemize}
+    \item $r_{t, \text{height}}$ is the absolute difference between the agent's torso height over its feet and the target height of $1$,
+    \item $r_{t, \text{pos}}(w_2, w_3)$ is the $\ell^2$ norm of the difference between the agent's torso position and the goal position. The goal moves at each time-step according to the desired \emph{walk speed} $w_2$ and \emph{walk direction} $w_3$, and
+    \item $c$ consists of other reward terms for balance, effort, and posture.
+\end{itemize}
+
+You will design the reward function by choosing values for $w_0, w_1, w_2,$ and $w_3$, which can be any real number. Here is how you can run the Quadruped task with $w_0 = w_1 = w_2 = w_3 = 0$:
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+./build/bin/mjpc --task="Quadruped Flat" --steps=100 \
+    --horizon=0.35 --w0=0.0 --w1=0.0 --w2=0.0 --w3=0.0
+\end{verbatim}
+\end{tcolorbox}
+
+\vspace{0.2cm}
+
+The program will run the simulator for the specified number of time-steps and save a video in the \texttt{mujoco\_mpc/videos/} directory. 
+
+\textbf{Important:} If you are using a headless host, such as the provided Azure Labs VM, make sure you run the following command first before running the simulator, to make the simluator run without a display:
+
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+xvfb-run -a -s "-screen 0 1400x900x24" bash
+\end{verbatim}
+\end{tcolorbox}
+
+
+🐍
+import re
+with open('submission.tex') as f: print((re.search(r'% <SCPD_SUBMISSION_TAG>_1a(.*?)% <SCPD_SUBMISSION_TAG>_1a', f.read(), re.DOTALL)).group(1))
+🐍

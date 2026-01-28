@@ -1,0 +1,32 @@
+\item \points{2b}
+In the second part, we will try to improve the performance of the policy with additional fine-tuning with reinforcement learning. 
+Reinforcement learning allows the robot to improve using its own experience, without needing additional demonstrations. Your implementation will be in the \textbf{ACAgent} class.
+
+\begin{itemize}
+
+    \item We begin by implementing the \textbf{update\_critic} method using the Bellman objective. Consider transitions $(o_t, a_t, r_t, o_{t+1}, \gamma)$ and implement the following steps:
+    \begin{enumerate}[label=\roman*.]
+        \item Sample next state actions from the policy $a_{t+1}'\sim \pi_{\theta}(o_{t+1})$.
+        \item Compute the Bellman targets $$y = r_t + \gamma\min\{\bar{Q}_{\theta^i}(o_{t+1}, a_{t+1}'), \bar{Q}_{\theta^j}(o_{t+1}, a_{t+1}')\}$$
+
+        where $\bar{Q}_{\theta^i}$ and $\bar{Q}_{\theta^j}$ are two randomly sampled target critics. We take the minimum over two Q-values to mitigate critic overestimation errors.
+        \item Compute the loss:
+            
+            $$\mathcal{L}_{Q_{\theta}, f_{\theta}} = \sum_{i=1}^N (Q_{\theta^i}(o_{t}, a_t)-\mathbf{sg}(y))^2$$
+        where $\mathbf{sg}$ stands for the stop gradient operator.
+        \item Take a gradient step with respect to the critic parameters.
+        \item Update the target critic parameters using exponential moving average.
+        $$\bar{Q}_{\theta^i} = (1-\tau)\bar{Q}_{\theta^i} + \tau Q_{\theta^i}$$
+        By using an exponential moving average, our target critic parameters are updated more slowly than those of the main critic.
+    
+    \end{enumerate}
+    
+    \item Next, we will improve the policy in the \textbf{update\_actor} method. Sample an action from the actor $a_t'\sim\pi_{\theta}(o_t)$ and compute the objective that optimizes the actor to maximize the Q-value estimates from the critics:
+
+    $$\mathcal{L}_{\pi_{\theta}} = -\frac{1}{N}\sum_{i=1}^NQ_{\theta^i}(o_t, a_t')$$
+
+    Take a gradient step on this objective with respect to the policy only.
+
+\end{itemize}
+
+

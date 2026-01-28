@@ -1,0 +1,48 @@
+\item  
+
+Once you have finished implementing the code gaps, proceed with the following sub-parts:
+
+\begin{enumerate}[label=\roman*.]
+
+    \item \points{2ci} Run the RL fine-tuning with
+
+        \begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+        \begin{verbatim}
+        python train.py agent.num_critics=2 utd=1
+        \end{verbatim}
+        \end{tcolorbox}
+
+    \item \points{2cii} Attach the plot ``eval/episode\_success" for the above run from Tensorboard. You should achieve a success rate of at least 90\% before 100K environment steps.
+
+🐍
+import re
+with open('submission.tex') as f: print((re.search(r'% <SCPD_SUBMISSION_TAG>_2cii(.*?)% <SCPD_SUBMISSION_TAG>_2cii', f.read(), re.DOTALL)).group(1))
+🐍
+
+    \item \points{2ciii} In the final part, we will explore some optimization parameter choices. The update-to-data (UTD) ratio stands for the number of critic gradient steps we do, with respect to each environment step. So far we have used only 2 critics and UTD of 1. Repeat the previous part with:
+
+        \begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+        \begin{verbatim}
+        python train.py agent.num_critics=10 utd=5
+        \end{verbatim}
+        \end{tcolorbox}
+        Here, we perform critic gradient steps 5x more often. However, too many gradient steps can make learning unstable by increasing error in the critic Q-values.
+
+        
+
+    \item \points{2civ} Attach the plot ``eval/episode\_success" for this run and compare it to the previous question. Provide an explanation of why we observe these effects.
+🐍
+import re
+with open('submission.tex') as f: print((re.search(r'% <SCPD_SUBMISSION_TAG>_2civ(.*?)% <SCPD_SUBMISSION_TAG>_2civ', f.read(), re.DOTALL)).group(1))
+🐍
+
+        \textbf{Note: this is slower to run due to the higher computational cost and you should expect run time of about 2 hours for 50,000 steps.}
+
+\end{enumerate}
+
+\textbf{Common Bugs}
+\begin{itemize}
+    \item If your critic loss curves remain flat throughout training, make sure the criticsare being updated.
+    \item If your critic losses become very large, make sure the dimensions of your criticpredictions and targets are correct, and/or tensor broadcasting is done correctly.
+    \item Make sure all critics are updated each iteration, not just those corresponding tothe two target critics that are sampled for computing Bellman targets.
+\end{itemize}

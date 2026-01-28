@@ -1,0 +1,32 @@
+\section{Actor-critic}
+
+
+In this problem we consider a realistic task in which a Sawyer robot needs to grasp a tooland used it to hammer in a nail. 
+The agent controls a 4-DOF Sawyer robot with a continuous action space and receives environment states as observations.  
+Providing dense rewards for real world problems is difficult, so in this environment the agent receives asparse reward of 1.0 upon fully completing the task and no intermediate rewards. 
+We will implement a general actor-critic algorithm that learns to solve the task with al-most 100\% success rate. 
+At each step the agent processes observationsot, which consistsof the environment states (e.g., pose of the robot gripper and hammer, etc.) from the lasttwo environment steps. 
+The full agent consists of:
+
+\begin{itemize}
+  \item The actor-critic algorithm utilizes critic networks $Q_{\theta^i}(o_t, a_t)$. This is implemented as the \textbf{Critic} class in \textbf{ac.py}. We use an ensemble 
+  of $N$ different critic networks. Using an ensemble of critic networks can help reduce error in the Q-value estimates.
+  \item Each critic network has a corresponding $target$ critic network $\bar{Q}_{\theta^i}(o_t, a_t)$., which is used for computing the Bellman targets for critic updates. 
+  We use target critic networks, which are updated more slowly, to have a more stable target for learning.
+  \item The final component of the algorithm is an the Actor or policy $\pi_{\theta}(o_{t})$. This is implemented as the \textbf{Actor} class in \textbf{ac.py}. 
+  You should familiarize yourself with these functions and their inputs and outputs. You should not modify any other files besides \textbf{ac.py}.
+\end{itemize}
+
+
+\begin{enumerate}[(a)]
+
+  \input{02-actor-critic/01-bc}
+
+  \input{02-actor-critic/02-actor-critic}
+
+  \input{02-actor-critic/03-run}
+
+\end{enumerate}
+
+
+
