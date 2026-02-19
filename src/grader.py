@@ -139,12 +139,14 @@ class Test_2a(GradedTestCase):
         torch.random.manual_seed(self.solution_cfg.seed)
         np.random.seed(self.solution_cfg.seed)
         random.seed(self.solution_cfg.seed)
-
-        self.solution_agent = make_agent(
-            self.grader_env.observation_spec(),
-            self.grader_env.action_spec(),
-            self.solution_cfg.agent,
-        )
+        try:
+            self.solution_agent = make_agent(
+                self.grader_env.observation_spec(),
+                self.grader_env.action_spec(),
+                self.solution_cfg.agent,
+            )
+        except Exception:
+            self.solution_agent = None
 
         from shutil import copytree
 
@@ -240,12 +242,14 @@ class Test_2b(GradedTestCase):
         torch.random.manual_seed(self.solution_cfg.seed)
         np.random.seed(self.solution_cfg.seed)
         random.seed(self.solution_cfg.seed)
-
-        self.solution_agent = make_agent(
-            self.grader_env.observation_spec(),
-            self.grader_env.action_spec(),
-            self.solution_cfg.agent,
-        )
+        try:
+            self.solution_agent = make_agent(
+                self.grader_env.observation_spec(),
+                self.grader_env.action_spec(),
+                self.solution_cfg.agent,
+            )
+        except Exception:
+            self.solution_agent = None
 
         from shutil import copytree
 
@@ -322,11 +326,13 @@ class Test_2ci(GradedTestCase):
 
     ### BEGIN_HIDE ###
     ### END_HIDE ###
+    pass
 
 class Test_2ciii(GradedTestCase):
 
     ### BEGIN_HIDE ###
     ### END_HIDE ###
+    pass
 
 
 def getTestCaseForTestID(test_id):
