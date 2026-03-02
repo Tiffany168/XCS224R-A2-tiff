@@ -1,0 +1,40 @@
+{
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-cd",
+                "-pdf",
+                "%WORKSPACE_FOLDER%/tex/submission.tex"
+            ],
+            "env": {}
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk",
+            "tools": ["latexmk"]
+        }
+    ],
+    "latex-workshop.latex.watch.files.ignore": [
+        "**/*.bbx",
+        "**/*.bst",
+        "**/*.cbx",
+        "**/*.cfg",
+        "**/*.clo",
+        "**/*.cnf",
+        "**/*.def",
+        "**/*.dfu",
+        "**/*.enc",
+        "**/*.fd",
+        "**/*.fmt",
+        "**/*.lbx",
+        "**/*.map",
+        "**/*.mkii",
+        "**/*.pfb",
+        "**/*.tfm",
+        "**/*.vf",
+        "**/macros.tex"
+    ]
+}

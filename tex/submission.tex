@@ -26,10 +26,10 @@ instructions to regenerate this handout with your typeset \LaTeX{} solutions.
 \ruleskip
 
 \LARGE
-1.a
+2.a
 \normalsize
 
-% <SCPD_SUBMISSION_TAG>_1a
+% <SCPD_SUBMISSION_TAG>_2a
 \begin{answer}
 
   \begin{table}[h]
@@ -40,18 +40,22 @@ instructions to regenerate this handout with your typeset \LaTeX{} solutions.
       \midrule
       $w_0$ & \textbf{
         % ### START CODE HERE ###
+        1
         % ### END CODE HERE ###
       } \\
       $w_1$ & \textbf{
         % ### START CODE HERE ###
+        1
         % ### END CODE HERE ###
       } \\
       $w_2$ & \textbf{
         % ### START CODE HERE ###
+        1
         % ### END CODE HERE ###
       } \\
       $w_3$ & \textbf{
         % ### START CODE HERE ###
+        -1
         % ### END CODE HERE ###
       } \\
       \bottomrule
@@ -61,68 +65,74 @@ instructions to regenerate this handout with your typeset \LaTeX{} solutions.
   \end{table}
   
 \end{answer}
-% <SCPD_SUBMISSION_TAG>_1a
+% <SCPD_SUBMISSION_TAG>_2a
 \clearpage
 
 \LARGE
-1.bi
+2.bi
 \normalsize
 
-% <SCPD_SUBMISSION_TAG>_1bi
+% <SCPD_SUBMISSION_TAG>_2bi
+\begin{answer}
+  % ### START CODE HERE ###
+  The agent firmly grasps the cube against the palm, holds it nearly still, and slowly rotates it toward the goal orientation.
+  This behavior arises because the large position and velocity penalties ($w_0=20$, $w_2=10$) incentivize keeping the cube close and stationary, while the small actuator penalty ($w_3=0.1$) allows the agent to apply the large forces needed for a stable grasp.
+  % ### END CODE HERE ###
+\end{answer}
+% <SCPD_SUBMISSION_TAG>_2bi
+\clearpage
+
+\LARGE
+2.bii
+\normalsize
+
+% <SCPD_SUBMISSION_TAG>_2bii
+\begin{answer}
+  % ### START CODE HERE ###
+  The agent makes weak, tentative hand movements that fail to maintain a firm grasp on the cube.
+  The increased actuator penalty ($w_3=1$) discourages applying the large forces needed for effective manipulation, and the very short planning horizon (0.25) prevents the planner from coordinating multi-step actions.
+  % ### END CODE HERE ###
+\end{answer}
+% <SCPD_SUBMISSION_TAG>_2bii
+\clearpage
+
+\LARGE
+2.biii
+\normalsize
+
+% <SCPD_SUBMISSION_TAG>_2biii
+\begin{answer}
+  % ### START CODE HERE ###
+  The agent applies no force and remains still, causing the cube to fall out of the hand and immediately terminating the episode.
+  Since only actuator effort is penalized and there is no incentive to hold or orient the cube ($w_0=w_1=w_2=0$), the reward-maximizing behavior is to do nothing.
+  % ### END CODE HERE ###
+\end{answer}
+% <SCPD_SUBMISSION_TAG>_2biii
+\clearpage
+
+
+\LARGE
+3.cii
+\normalsize
+
+% <SCPD_SUBMISSION_TAG>_3cii
 \begin{answer}
   % ### START CODE HERE ###
   % ### END CODE HERE ###
 \end{answer}
-% <SCPD_SUBMISSION_TAG>_1bi
+% <SCPD_SUBMISSION_TAG>_3cii
 \clearpage
 
 \LARGE
-1.bii
+3.civ
 \normalsize
 
-% <SCPD_SUBMISSION_TAG>_1bii
+% <SCPD_SUBMISSION_TAG>_3civ
 \begin{answer}
   % ### START CODE HERE ###
   % ### END CODE HERE ###
 \end{answer}
-% <SCPD_SUBMISSION_TAG>_1bii
-\clearpage
-
-\LARGE
-1.biii
-\normalsize
-
-% <SCPD_SUBMISSION_TAG>_1biii
-\begin{answer}
-  % ### START CODE HERE ###
-  % ### END CODE HERE ###
-\end{answer}
-% <SCPD_SUBMISSION_TAG>_1biii
-\clearpage
-
-
-\LARGE
-2.cii
-\normalsize
-
-% <SCPD_SUBMISSION_TAG>_2cii
-\begin{answer}
-  % ### START CODE HERE ###
-  % ### END CODE HERE ###
-\end{answer}
-% <SCPD_SUBMISSION_TAG>_2cii
-\clearpage
-
-\LARGE
-2.civ
-\normalsize
-
-% <SCPD_SUBMISSION_TAG>_2civ
-\begin{answer}
-  % ### START CODE HERE ###
-  % ### END CODE HERE ###
-\end{answer}
-% <SCPD_SUBMISSION_TAG>_2civ
+% <SCPD_SUBMISSION_TAG>_3civ
 \clearpage
 
 % <SCPD_SUBMISSION_TAG>_entire_submission
