@@ -136,6 +136,21 @@ class ACAgent:
         obs, action, reward, discount, next_obs = utils.to_torch(batch, self.device)
 
         # *** START CODE HERE ***
+        with torch.no_grad():
+            dist = self.actor(next_obs)
+            next_action = dist.sample(clip=self.stddev_clip)
+            target_qs = self.critic_target(next_obs, next_action)
+        i, j = random.sample(range(len(target_qs)), 2)
+        target_q = torch.min(target_qs[i], target_qs[j])
+        target_q = (reward + discount * target_q).detach()
+        qs = self.critic(obs, action)
+        
+        self.critic_opt.zero_grad()
+        critic_loss = sum(F.mse_loss(q, target_q) for q in qs)
+        critic_loss.backward()
+        self.critic_opt.step()
+        utils.soft_update_params(self.critic, self.critic_target, self.critic_target_tau)
+        metrics['critic_loss'] = critic_loss.item()
         # *** END CODE HERE ***
 
         #####################
@@ -168,6 +183,14 @@ class ACAgent:
         obs, _, _, _, _ = utils.to_torch(batch, self.device)
 
         # *** START CODE HERE ***
+        dist = self.actor(obs)
+        action = dist.sample(clip=self.stddev_clip)
+        qs = self.critic(obs, action)
+        actor_loss = -torch.stack(qs).mean()
+        self.actor_opt.zero_grad()
+        actor_loss.backward()
+        self.actor_opt.step()
+        metrics['actor_loss'] = actor_loss.item()
         # *** END CODE HERE ***
 
         return metrics
@@ -200,7 +223,13 @@ class ACAgent:
         obs, action, _, _, _ = utils.to_torch(batch, self.device)
 
         # *** START CODE HERE ***
-        
+        dist = self.actor(obs)
+        log_prob = dist.log_prob(action).sum(-1)
+        bc_loss = -log_prob.mean()
+        self.actor_opt.zero_grad()
+        bc_loss.backward()
+        self.actor_opt.step()
+        metrics['bc_loss'] = bc_loss.item()
         # *** END CODE HERE ***
 
         return metrics

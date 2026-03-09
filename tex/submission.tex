@@ -19,12 +19,6 @@
 
 % <SCPD_SUBMISSION_TAG>_entire_submission
 
-This handout includes space for every question that requires a written response.
-Please feel free to use it to handwrite your solutions (legibly, please).  If
-you choose to typeset your solutions, the |README.md| for this assignment includes
-instructions to regenerate this handout with your typeset \LaTeX{} solutions.
-\ruleskip
-
 \LARGE
 2.a
 \normalsize
@@ -55,7 +49,7 @@ instructions to regenerate this handout with your typeset \LaTeX{} solutions.
       } \\
       $w_3$ & \textbf{
         % ### START CODE HERE ###
-        -1
+        $-\pi/2 \approx -1.57$
         % ### END CODE HERE ###
       } \\
       \bottomrule
@@ -63,7 +57,13 @@ instructions to regenerate this handout with your typeset \LaTeX{} solutions.
   \label{table:Problem_1}
   \caption{Parameters of your reward function.}
   \end{table}
-  
+
+  The key parameter is $w_3 = -\pi/2$, which sets the goal direction $90^\circ$ to the right of the robot's current heading.
+  Since the quadruped moves forward more easily than sideways, the MPC controller turns the body rightward and steps forward to reduce the sideways position error, producing continuous clockwise turning.
+  Balanced weights $w_0 = w_1 = 1$ maintain height stability and goal tracking simultaneously, moderate speed $w_2 = 1$ controls the radius of the circle, and together these ensure smooth forward motion without destabilizing the gait.
+
+  Video demonstration: \url{https://drive.google.com/file/d/1fnrmOiLWfbe_56-ieOrEgMA7X4l4o_th/view?usp=sharing}
+
 \end{answer}
 % <SCPD_SUBMISSION_TAG>_2a
 \clearpage
@@ -76,7 +76,7 @@ instructions to regenerate this handout with your typeset \LaTeX{} solutions.
 \begin{answer}
   % ### START CODE HERE ###
   The agent firmly grasps the cube against the palm, holds it nearly still, and slowly rotates it toward the goal orientation.
-  This behavior arises because the large position and velocity penalties ($w_0=20$, $w_2=10$) incentivize keeping the cube close and stationary, while the small actuator penalty ($w_3=0.1$) allows the agent to apply the large forces needed for a stable grasp.
+  This behavior arises because the large position and velocity penalties ($w_0=20$, $w_2=10$) incentivize keeping the cube close and stationary, the orientation penalty ($w_1=3$) provides the signal to rotate toward the goal, and the small actuator penalty ($w_3=0.1$) allows the agent to apply the large forces needed for a stable grasp.
   % ### END CODE HERE ###
 \end{answer}
 % <SCPD_SUBMISSION_TAG>_2bi
@@ -118,6 +118,9 @@ instructions to regenerate this handout with your typeset \LaTeX{} solutions.
 % <SCPD_SUBMISSION_TAG>_3cii
 \begin{answer}
   % ### START CODE HERE ###
+  \begin{center}
+    \includegraphics[width=0.8\textwidth]{figures/plot_3cii.png}
+  \end{center}
   % ### END CODE HERE ###
 \end{answer}
 % <SCPD_SUBMISSION_TAG>_3cii
@@ -130,6 +133,34 @@ instructions to regenerate this handout with your typeset \LaTeX{} solutions.
 % <SCPD_SUBMISSION_TAG>_3civ
 \begin{answer}
   % ### START CODE HERE ###
+  \begin{center}
+    \includegraphics[width=0.8\textwidth]{figures/plot_3civ.png}
+  \end{center}
+
+  The plot shows that the configuration with 10 critics and UTD=5 (cyan) reaches a perfect success rate of 1.0 significantly faster ($\sim$46k environment steps) compared to the baseline with 2 critics and UTD=1 (black), which reaches ${\gtrsim}\,0.9$ at 82k steps.
+
+  \begin{table}[h]
+  \centering
+  \begin{tabular}{lccc}
+    \toprule
+    Configuration & Max Success Rate & Steps to $\geq$0.9 Success & Time (at 98k steps) \\
+    \midrule
+    Baseline (2 critics, UTD=1) & $\sim$0.97 & $\sim$82,000 & 8.14 min \\
+    Optimized (10 critics, UTD=5) & 1.0 & $\sim$44,000 & 55.55 min \\
+    \bottomrule
+  \end{tabular}
+  \caption{Comparison of baseline and optimized configurations.}
+  \end{table}
+
+  \paragraph{Explanation of Effects}
+
+  \begin{enumerate}
+    \item \textbf{Sample efficiency vs.\ runtime.} UTD=5 performs five gradient steps per environment step, extracting more learning signal from each transition and converging in roughly half the environment steps. However, this comes at a steep computational cost: 25 minutes (44k steps, ${\gtrsim}\,0.9$
+ episode success) versus 7 minutes (82k steps, ${\gtrsim}\,0.9$
+ episode success). This reflects the known tension in high-UTD training: better sample efficiency at the cost of time.
+
+    \item \textbf{High UTD causes instability, mitigated by larger ensemble.} As the assignment notes, too many gradient steps can make learning unstable by amplifying Q-value estimation errors. This is visible in the early volatility of the cyan curve and is confirmed by the significantly higher critic loss ($\sim$13.9 vs.\ $\sim$2.4 for the baseline). The 10-critic ensemble mitigates this by providing more conservative Bellman targets: taking the minimum of 2 critics sampled from a pool of 10 yields lower, less overestimated Q-values than sampling from only 2, preventing the actor from being misled by inflated Q-estimates despite the aggressive update schedule.
+  \end{enumerate}
   % ### END CODE HERE ###
 \end{answer}
 % <SCPD_SUBMISSION_TAG>_3civ
